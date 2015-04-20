@@ -11,9 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -42,24 +40,21 @@ public class MyListActivity extends ListActivity implements  AdapterView.OnItemL
         int[] to =  new int[] {android.R.id.text1, android.R.id.text2};
         //Creating cursor
         Cursor queryCursor = this.getContentResolver().query(MyContentProvider.CONTENT_URI,null,null,null,null);
-        startManagingCursor(queryCursor);
-        mAdapter = new SimpleCursorAdapter(this,android.R.layout.two_line_list_item,queryCursor,from,to,0);
 
-        mAdapter.registerDataSetObserver(new DataSetObserver() {
-            @Override
-            public void onChanged() {
-                super.onChanged();
+        if (queryCursor != null) {
+            //setting notithcation uri for created cursor
+            queryCursor.setNotificationUri(this.getContentResolver(),
+                    MyContentProvider.CONTENT_URI);
+            mAdapter = new SimpleCursorAdapter(this, android.R.layout.two_line_list_item, queryCursor, from, to, 0);
+            setListAdapter(mAdapter);
+            queryCursor.moveToFirst();
+            idList = new ArrayList<Integer>(queryCursor.getCount());
+            do {
+                if (queryCursor.getCount() > 0)
+                    idList.add(queryCursor.getInt(queryCursor.getColumnIndex(MyContentProvider.ITEM_ID)));
             }
-        });
-
-        setListAdapter(mAdapter);
-        queryCursor.moveToFirst();
-        idList = new ArrayList<Integer>(queryCursor.getCount());
-        do {
-            if (queryCursor.getCount()>0)
-                idList.add(queryCursor.getInt(queryCursor.getColumnIndex(MyContentProvider.ITEM_ID)));
+            while (queryCursor.moveToNext());
         }
-        while (queryCursor.moveToNext());
     }
 
     @Override
@@ -104,35 +99,19 @@ public class MyListActivity extends ListActivity implements  AdapterView.OnItemL
         String selectedItem = parent.getItemAtPosition(position).toString();
 
         Toast.makeText(getApplicationContext(),
-                selectedItem + " удалён.",
+                selectedItem + " deleted.",
                 Toast.LENGTH_SHORT).show();
-
-
         int itemId = idList.get(position);
-        getContentResolver().delete(MyContentProvider.CONTENT_URI,MyContentProvider.ITEM_ID+"=?",new String[]{""+itemId});
-        mAdapter.notifyDataSetChanged();
-        this.getListView().invalidate();
-        mAdapter.swapCursor(this.getContentResolver().query(MyContentProvider.CONTENT_URI,null,null,null,null));
-
+        getContentResolver().delete(MyContentProvider.CONTENT_URI, MyContentProvider.ITEM_ID + "=?", new String[]{"" + itemId});
+        //TODO change udate with Data Set Observer
+        //========
+        //mAdapter.notifyDataSetChanged();
+        //mAdapter.swapCursor(this.getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, null));
+        //========
 
         return true;
+
     }
 
-    private class MyCursorAdapter extends CursorAdapter
-    {
-        public MyCursorAdapter(Context context, Cursor c, boolean autoRequery) {
-            super(context, c, autoRequery);
-        }
-
-        @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            return null;
-        }
-
-        @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-
-        }
-    }
 
 }

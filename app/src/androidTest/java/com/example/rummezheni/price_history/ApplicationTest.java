@@ -1,4 +1,4 @@
-package com.example.rummezheni.application1;
+package com.example.rummezheni.price_history;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

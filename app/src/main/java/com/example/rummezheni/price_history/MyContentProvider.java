@@ -112,7 +112,7 @@ public class MyContentProvider extends ContentProvider{
         db = mDatabaseHelper.getWritableDatabase();
         String tableName = uri.getLastPathSegment();
         long rowID = db.delete(tableName,selection,selectionArgs);
-        getContext().getContentResolver().notifyAll();
+        getContext().getContentResolver().notifyChange(CONTENT_URI, null);
         return 0;
     }
 
@@ -130,7 +130,7 @@ public class MyContentProvider extends ContentProvider{
         long rowID = db.insert(TABLE_NAME, null, values);
         Uri resultUri = ContentUris.withAppendedId(CONTENT_URI, rowID);
         // уведомляем ContentResolver, что данные по адресу resultUri изменились
-        getContext().getContentResolver().notifyChange(resultUri, null);
+        getContext().getContentResolver().notifyChange(CONTENT_URI, null);
         return resultUri;
     }
 
