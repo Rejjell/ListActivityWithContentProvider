@@ -51,8 +51,6 @@ public class AddActivity extends Activity {
     }
 
     public void doInsert(View view) {
-
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(MyContentProvider.ITEM_NAME, editTextName.getText().toString());
         contentValues.put(MyContentProvider.ITEM_PRICE, editTextPrice.getText().toString());
