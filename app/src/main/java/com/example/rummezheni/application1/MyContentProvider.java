@@ -112,7 +112,7 @@ public class MyContentProvider extends ContentProvider{
         db = mDatabaseHelper.getWritableDatabase();
         String tableName = uri.getLastPathSegment();
         long rowID = db.delete(tableName,selection,selectionArgs);
-
+        getContext().getContentResolver().notifyAll();
         return 0;
     }
 
