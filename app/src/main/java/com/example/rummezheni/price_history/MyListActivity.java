@@ -1,4 +1,4 @@
-package com.example.rummezheni.application1;
+package com.example.rummezheni.price_history;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -13,9 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -51,7 +49,6 @@ public class MyListActivity extends ListActivity implements  AdapterView.OnItemL
             @Override
             public void onChanged() {
                 super.onChanged();
-
             }
         });
 

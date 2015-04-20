@@ -1,4 +1,4 @@
-package com.example.rummezheni.application1;
+package com.example.rummezheni.price_history;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
