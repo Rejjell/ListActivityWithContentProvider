@@ -1,6 +1,8 @@
 package com.example.rummezheni.price_history;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
@@ -121,11 +123,24 @@ public class MyListActivity extends ListActivity
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        getContentResolver()
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+                builder.setMessage("DialogMessage")
+                        .setTitle("DialogTitle");
+
+        // 3. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+
+
+        /*getContentResolver()
                 .delete(MyContentProvider.CONTENT_URI, MyContentProvider.ITEM_ID + "=?", new String[]{"" + id});
-        getLoaderManager().restartLoader(0,null,this);
+        getLoaderManager().restartLoader(0,null,this);*/
         Log.d(TAG,"onItemLongClick fired");
         return true;
     }
-
 }
